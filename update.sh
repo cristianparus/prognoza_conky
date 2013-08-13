@@ -1,6 +1,6 @@
 #/usr/bin/bash
 
-path=/mnt/data/projekti/prognoza/
+path = YOUR PATH
 cd $path;
 
 rm forecast_hour_by_hour.xml*
