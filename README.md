@@ -14,8 +14,9 @@ In conky_template, you can change view of your conky (not in conky.conf because 
 
 On the end, if you want automatic update, use cron. Here is example which I'm using to update XML every 5 hours. 
 
-00 */5 * * * sh /mnt/data/projekti/prognoza/update.sh
+00 */5 * * * sh /mnt/data/projekti/prognoza/update.sh YOUR_PATH
 
+update.sh script takes one argument on starting which is path of folder where is prognoza.py script.
 
 Notice:
 
