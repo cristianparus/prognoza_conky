@@ -3,7 +3,7 @@
 import xml.etree.ElementTree as ET
 from datetime import datetime
 
-ispis = "vert"
+ispis = "hor"
 
 def datum(dat):
 	t = dat.rsplit("-")
@@ -120,6 +120,7 @@ for i in time:
 		danas.dan = datum(t_from[0:10])
 
 
+print ("Zadnji update: " + today_time + "\n")
 print ("Izlazak sunca: " + sun.attrib["rise"][11:-3] + "\tZalazak sunca: " + sun.attrib["set"][11:-3] + "\n")
 	
 if ispis == "hor":
