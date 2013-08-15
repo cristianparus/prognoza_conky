@@ -14,7 +14,7 @@ background yes
 use_xft yes
 
 # Xft font when Xft is enabled
-xftfont xirod:size=10
+xftfont xirod:size=8
 
 # Text alpha when using Xft
 xftalpha 0.8
@@ -23,7 +23,7 @@ xftalpha 0.8
 
 
 # Update interval in seconds
-update_interval 1
+update_interval 60
 
 # This is the number of times Conky will update before quitting.
 # Set to zero to run forever.

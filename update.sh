@@ -1,6 +1,6 @@
 #/usr/bin/bash
 
-path= YOUR PATH
+path=/mnt/data/projekti/prognoza/
 cd $path;
 
 
