@@ -75,89 +75,89 @@ class dan:
 		
 			config.write ("\n")
 
-if __name__ == "__main__":
-
-	izbrisi_staro()
-	config = open('conky.conf','a')
-
-	ispis = "hor"
-	today = str(datetime.today())
-	today_date = today[:10]
-	today_time = today[11:16]
-
-	tree = ET.parse('/mnt/data/projekti/prognoza/forecast_hour_by_hour.xml')
-	root = tree.getroot()
-
-	sun = root.find("sun");
-	forecast = root.find("forecast")
-	tabular = forecast.find("tabular")
-
-	time = list(tabular.iter("time"))
-
-	counter = 0
-	t_danas = time[0].attrib["from"][:10]
-
-	danas = dan()
-	sutra = dan()
-	prekosutra = dan()
-
-	for i in time:
-		t_from = i.attrib["from"]
-
-		tem = i.find("temperature")
-		t_temp = tem.attrib["value"]
-
-		sym = i.find("symbol")
-		t_sym = sym.attrib["name"]
-		
-		if t_from[:10] != t_danas:
-			t_danas = t_from[:10]
-			counter +=1
-
-		if counter == 1:
-
-			sutra.temp.append(t_temp + "${iconv_start UTF-8 ISO_8859-1}°${iconv_stop}C")
-			sutra.termin.append(t_from)
-			sutra.symbol.append(t_sym)
-			sutra.dan = datum(t_from[0:10])
-
-		elif counter == 2:
-			prekosutra.temp.append(t_temp + "${iconv_start UTF-8 ISO_8859-1}°${iconv_stop}C")
-			prekosutra.termin.append(t_from)
-			prekosutra.symbol.append(t_sym)
-			prekosutra.dan = datum(t_from[0:10])
 
 
-		else:
-			danas.temp.append(t_temp + "${iconv_start UTF-8 ISO_8859-1}°${iconv_stop}C")
-			danas.termin.append(t_from)
-			danas.symbol.append(t_sym)
-			danas.dan = datum(t_from[0:10])
+izbrisi_staro()
+config = open('conky.conf','a')
 
+ispis = "hor"
+today = str(datetime.today())
+today_date = today[:10]
+today_time = today[11:16]
 
-	config.write ("Zadnji update: " + today_time + "\n")
-	config.write ("Izlazak sunca: " + sun.attrib["rise"][11:-3] + "\tZalazak sunca: " + sun.attrib["set"][11:-3] + "\n")
-		
-	if ispis == "hor":
+tree = ET.parse('/mnt/data/projekti/prognoza/forecast_hour_by_hour.xml')
+root = tree.getroot()
 
-		config.write ("\n${color green}Danas " + danas.dan + "${color}\n")
-		danas.ispis_hor(config)
-		config.write ("\n${color green}Sutra " + sutra.dan + "${color}\n")
+sun = root.find("sun");
+forecast = root.find("forecast")
+tabular = forecast.find("tabular")
 
-		sutra.ispis_hor(config)
-		config.write ("\n${color green}Prekosutra " + prekosutra.dan + "${color}\n")
+time = list(tabular.iter("time"))
 
-		prekosutra.ispis_hor(config)
+counter = 0
+t_danas = time[0].attrib["from"][:10]
+
+danas = dan()
+sutra = dan()
+prekosutra = dan()
+
+for i in time:
+	t_from = i.attrib["from"]
+
+	tem = i.find("temperature")
+	t_temp = tem.attrib["value"]
+
+	sym = i.find("symbol")
+	t_sym = sym.attrib["name"]
+	
+	if t_from[:10] != t_danas:
+		t_danas = t_from[:10]
+		counter +=1
+
+	if counter == 1:
+
+		sutra.temp.append(t_temp + "${iconv_start UTF-8 ISO_8859-1}°${iconv_stop}C")
+		sutra.termin.append(t_from)
+		sutra.symbol.append(t_sym)
+		sutra.dan = datum(t_from[0:10])
+
+	elif counter == 2:
+		prekosutra.temp.append(t_temp + "${iconv_start UTF-8 ISO_8859-1}°${iconv_stop}C")
+		prekosutra.termin.append(t_from)
+		prekosutra.symbol.append(t_sym)
+		prekosutra.dan = datum(t_from[0:10])
+
 
 	else:
-		prvi_red = "${color green}Danas " + danas.dan + "${color}${goto 100}"
-		prvi_red += "${color green}Sutra " + sutra.dan + "${color}${goto 200}"
-		prvi_red += "${color green}Prekosutra " + prekosutra.dan + "${color}${goto 300}"
+		danas.temp.append(t_temp + "${iconv_start UTF-8 ISO_8859-1}°${iconv_stop}C")
+		danas.termin.append(t_from)
+		danas.symbol.append(t_sym)
+		danas.dan = datum(t_from[0:10])
 
-		config.write (prvi_red + "\n")
-		danas.ispis_ver(sutra,prekosutra,config)
 
-	config.close()
-	os.system('killall conky')
-	os.system('conky -c conky.conf &')
-	os.system('conky &')
+config.write ("Zadnji update: " + today_time + "\n")
+config.write ("Izlazak sunca: " + sun.attrib["rise"][11:-3] + "\tZalazak sunca: " + sun.attrib["set"][11:-3] + "\n")
+	
+if ispis == "hor":
+
+	config.write ("\n${color green}Danas " + danas.dan + "${color}\n")
+	danas.ispis_hor(config)
+	config.write ("\n${color green}Sutra " + sutra.dan + "${color}\n")
+
+	sutra.ispis_hor(config)
+	config.write ("\n${color green}Prekosutra " + prekosutra.dan + "${color}\n")
+
+	prekosutra.ispis_hor(config)
+
+else:
+	prvi_red = "${color green}Danas " + danas.dan + "${color}${goto 100}"
+	prvi_red += "${color green}Sutra " + sutra.dan + "${color}${goto 200}"
+	prvi_red += "${color green}Prekosutra " + prekosutra.dan + "${color}${goto 300}"
+
+	config.write (prvi_red + "\n")
+	danas.ispis_ver(sutra,prekosutra,config)
+
+config.close()
+os.system('killall conky')
+os.system('conky -c conky.conf &')
+os.system('conky &')
