@@ -33,9 +33,9 @@ class dan:
 		goto = 0
 
 		for i in range(0,len(self.temp)):
-			termin += "${goto %d}%s " %(goto,self.termin[i][11:-3])
-			temp += "${goto %d}%s" %(goto,self.temp[i])
-			symbol += "${goto %d}%s " %(goto,self.symbol[i])
+			termin += "${goto %d}%s \n" %(goto,self.termin[i][11:-3])
+			temp += "${goto %d}%s\n" %(goto,self.temp[i])
+			symbol += "${goto %d}%s \n" %(goto,self.symbol[i])
 			goto+=100
 
 		config.write (termin + "\n" + temp + "\n" + symbol + "\n")
@@ -69,9 +69,9 @@ class dan:
 
 
 
-			config.write ("${goto 0}${color red}%s${color} ${goto 100}${color red}%s${color} ${goto 200}${color red}%s${color} " % (self.termin[i][11:-3],sutra.termin[i][11:-3],prekosutra.termin[i][11:-3]))
-			config.write ("${goto 0}%s ${goto 100}%s ${goto 200}%s" % (self.temp[i],sutra.temp[i],prekosutra.temp[i]))
-			config.write ("${goto 0}%s ${goto 100}%s ${goto 200}%s" % (self.symbol[i],sutra.symbol[i],prekosutra.symbol[i]))
+			config.write ("${goto 0}${color red}%s${color} ${goto 100}${color red}%s${color} ${goto 200}${color red}%s${color} \n" % (self.termin[i][11:-3],sutra.termin[i][11:-3],prekosutra.termin[i][11:-3]))
+			config.write ("${goto 0}%s ${goto 100}%s ${goto 200}%s\n" % (self.temp[i],sutra.temp[i],prekosutra.temp[i]))
+			config.write ("${goto 0}%s ${goto 100}%s ${goto 200}%s\n" % (self.symbol[i],sutra.symbol[i],prekosutra.symbol[i]))
 		
 			config.write ("\n")
 
@@ -80,7 +80,7 @@ class dan:
 izbrisi_staro()
 config = open('conky.conf','a')
 
-ispis = "hor"
+ispis = "vert"
 today = str(datetime.today())
 today_date = today[:10]
 today_time = today[11:16]
@@ -135,17 +135,17 @@ for i in time:
 		danas.dan = datum(t_from[0:10])
 
 
-config.write ("Zadnji update: " + today_time + "\n")
-config.write ("Izlazak sunca: " + sun.attrib["rise"][11:-3] + "\tZalazak sunca: " + sun.attrib["set"][11:-3] + "\n")
+config.write ("Zadnji update: " + today_time + "\n\n")
+config.write ("Izlazak sunca: " + sun.attrib["rise"][11:-3] + "\tZalazak sunca: " + sun.attrib["set"][11:-3] + "\n\n")
 	
 if ispis == "hor":
 
-	config.write ("\n${color green}Danas " + danas.dan + "${color}\n")
+	config.write ("\n${color green}Danas " + danas.dan + "${color}\n\n")
 	danas.ispis_hor(config)
-	config.write ("\n${color green}Sutra " + sutra.dan + "${color}\n")
+	config.write ("\n${color green}Sutra " + sutra.dan + "${color}\n\n")
 
 	sutra.ispis_hor(config)
-	config.write ("\n${color green}Prekosutra " + prekosutra.dan + "${color}\n")
+	config.write ("\n${color green}Prekosutra " + prekosutra.dan + "${color}\n\n")
 
 	prekosutra.ispis_hor(config)
 
@@ -154,7 +154,7 @@ else:
 	prvi_red += "${color green}Sutra " + sutra.dan + "${color}${goto 200}"
 	prvi_red += "${color green}Prekosutra " + prekosutra.dan + "${color}${goto 300}"
 
-	config.write (prvi_red + "\n")
+	config.write (prvi_red + "\n\n")
 	danas.ispis_ver(sutra,prekosutra,config)
 
 config.close()
