@@ -7,8 +7,9 @@ import os
 
 
 def izbrisi_staro():
-	os.chdir('/mnt/data/projekti/prognoza/')
-	os.remove('forecast_hour_by_hour.xml')
+	os.chdir('/home/ante/Documents/prognoza_conky/')
+	if 'forecast_hour_by_hour.xml' in os.listdir('.'):
+		os.remove('forecast_hour_by_hour.xml')
 	os.system('wget http://www.yr.no/place/Croatia/Grad_Zagreb/Zagreb/forecast_hour_by_hour.xml')
 	os.system('cp conky_template conky.conf')
 
@@ -85,7 +86,7 @@ today = str(datetime.today())
 today_date = today[:10]
 today_time = today[11:16]
 
-tree = ET.parse('/mnt/data/projekti/prognoza/forecast_hour_by_hour.xml')
+tree = ET.parse('/home/ante/Documents/prognoza_conky/forecast_hour_by_hour.xml')
 root = tree.getroot()
 
 sun = root.find("sun");
